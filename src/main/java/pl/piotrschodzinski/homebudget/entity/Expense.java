@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,6 +20,8 @@ public class Expense {
     Long id;
     @Column(nullable = false)
     String title;
+    @Column(nullable = false, scale = 2)
+    BigDecimal value;
     LocalDateTime time;
     @ManyToOne
     ExpenseCategory category;

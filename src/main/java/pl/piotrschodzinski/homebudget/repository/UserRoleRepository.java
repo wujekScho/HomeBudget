@@ -6,4 +6,5 @@ import pl.piotrschodzinski.homebudget.entity.UserRole;
 
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
+    UserRole findByRole(String role);
 }
