@@ -24,4 +24,9 @@ public class ExpenseCategory {
     List<Expense> expenses = new ArrayList<>();
     @ManyToOne
     User user;
+
+    public ExpenseCategory(String name, User user) {
+        this.name = name;
+        this.user = user;
+    }
 }
