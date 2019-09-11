@@ -12,7 +12,7 @@ public class HomeBudgetApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(HomeBudgetApplication.class, args);
         UserService userService = ctx.getBean(UserService.class);
-        User user = new User("admin", "admin@gmail.com", "admin");
+        User user = new User("user", "user@gmail.com", "user");
         userService.addRegularUser(user);
     }
 }

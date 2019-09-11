@@ -13,7 +13,7 @@ public class ExpenseCategoryService {
         this.expenseCategoryRepository = expenseCategoryRepository;
     }
 
-    public void setDefaultCategories(User user) {
+    public void setUserDefaultCategories(User user) {
         expenseCategoryRepository.save(new ExpenseCategory("Jedzenie", user));
         expenseCategoryRepository.save(new ExpenseCategory("Rozrywka", user));
         expenseCategoryRepository.save(new ExpenseCategory("Transport", user));

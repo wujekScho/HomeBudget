@@ -28,7 +28,7 @@ public class UserService {
         UserRole roleUser = userRoleRepository.findByRole("ROLE_USER");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(roleUser);
-        expenseCategoryService.setDefaultCategories(user);
+        expenseCategoryService.setUserDefaultCategories(user);
         userRepository.save(user);
         return user;
     }
