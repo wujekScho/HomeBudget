@@ -1,9 +1,8 @@
 package pl.piotrschodzinski.homebudget.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import pl.piotrschodzinski.homebudget.dto.ExpenseDto;
 import pl.piotrschodzinski.homebudget.service.ExpenseService;
 
@@ -23,5 +22,8 @@ public class ExpenseController {
         return expenseService.getUserExpenses(userId);
     }
 
-
+    @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void addExpense(@Validated @RequestBody ExpenseDto expenseDto) {
+        expenseService.addUserExpense(expenseDto);
+    }
 }

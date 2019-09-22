@@ -23,9 +23,9 @@ public class Expense {
     @Column(nullable = false, scale = 2)
     BigDecimal value;
     LocalDateTime time;
-    @ManyToOne
+    @ManyToOne(optional = false)
     ExpenseCategory category;
-    @ManyToOne
+    @ManyToOne(optional = false)
     User user;
 
     @PrePersist

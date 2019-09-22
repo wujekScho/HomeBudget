@@ -3,8 +3,12 @@ package pl.piotrschodzinski.homebudget.mapper;
 import org.springframework.stereotype.Component;
 import pl.piotrschodzinski.homebudget.dto.ExpenseDto;
 import pl.piotrschodzinski.homebudget.entity.Expense;
+import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
+import pl.piotrschodzinski.homebudget.entity.User;
 import pl.piotrschodzinski.homebudget.repository.ExpenseCategoryRepository;
 import pl.piotrschodzinski.homebudget.repository.UserRepository;
+
+import java.util.Optional;
 
 @Component
 public class ExpenseMapper implements DtoMapper<Expense, ExpenseDto> {
@@ -23,8 +27,10 @@ public class ExpenseMapper implements DtoMapper<Expense, ExpenseDto> {
         expense.setTitle(expenseDto.getTitle());
         expense.setValue(expenseDto.getValue());
         expense.setTime(expenseDto.getTime());
-        expense.setCategory(expenseCategoryRepository.getOne(expenseDto.getCategoryId()));
-        expense.setUser(userRepository.getOne(expenseDto.getUserId()));
+        Optional<ExpenseCategory> optionalCategory = expenseCategoryRepository.findById(expenseDto.getCategoryId());
+        optionalCategory.ifPresentOrElse(expense::setCategory, () -> System.out.println("źle"));
+        Optional<User> optionalUser = userRepository.findById(expenseDto.getUserId());
+        optionalUser.ifPresentOrElse(expense::setUser, () -> System.out.println("źle")); //todo rzucić tu wyjątkiem??
         return expense;
     }
 
