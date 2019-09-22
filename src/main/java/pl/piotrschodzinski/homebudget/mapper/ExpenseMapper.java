@@ -5,6 +5,7 @@ import pl.piotrschodzinski.homebudget.dto.ExpenseDto;
 import pl.piotrschodzinski.homebudget.entity.Expense;
 import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
 import pl.piotrschodzinski.homebudget.entity.User;
+import pl.piotrschodzinski.homebudget.exception.customException.EntityNotFoundException;
 import pl.piotrschodzinski.homebudget.repository.ExpenseCategoryRepository;
 import pl.piotrschodzinski.homebudget.repository.UserRepository;
 
@@ -28,9 +29,13 @@ public class ExpenseMapper implements DtoMapper<Expense, ExpenseDto> {
         expense.setValue(expenseDto.getValue());
         expense.setTime(expenseDto.getTime());
         Optional<ExpenseCategory> optionalCategory = expenseCategoryRepository.findById(expenseDto.getCategoryId());
-        optionalCategory.ifPresentOrElse(expense::setCategory, () -> System.out.println("źle"));
+        optionalCategory.ifPresentOrElse(expense::setCategory, () -> {
+            throw new EntityNotFoundException("Category not found.");
+        });
         Optional<User> optionalUser = userRepository.findById(expenseDto.getUserId());
-        optionalUser.ifPresentOrElse(expense::setUser, () -> System.out.println("źle")); //todo rzucić tu wyjątkiem??
+        optionalUser.ifPresentOrElse(expense::setUser, () -> {
+            throw new EntityNotFoundException("User not found.");
+        });
         return expense;
     }
 

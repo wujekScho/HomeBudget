@@ -1,11 +1,11 @@
 package pl.piotrschodzinski.homebudget.controller;
 
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrschodzinski.homebudget.dto.ExpenseDto;
 import pl.piotrschodzinski.homebudget.service.ExpenseService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,7 +23,7 @@ public class ExpenseController {
     }
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addExpense(@Validated @RequestBody ExpenseDto expenseDto) {
+    public void addExpense(@Valid @RequestBody ExpenseDto expenseDto) {
         expenseService.addUserExpense(expenseDto);
     }
 }
