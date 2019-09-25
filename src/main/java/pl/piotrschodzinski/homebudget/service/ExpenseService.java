@@ -60,4 +60,11 @@ public class ExpenseService {
             throw new EntityNotFoundException("User or category not found.");
         }
     }
+
+    public void delete(Long expenseId) {
+        Optional<Expense> optionalExpense = expenseRepository.findById(expenseId);
+        optionalExpense.ifPresentOrElse(e -> expenseRepository.delete(e), () -> {
+            throw new EntityNotFoundException("Expense not found.");
+        });
+    }
 }

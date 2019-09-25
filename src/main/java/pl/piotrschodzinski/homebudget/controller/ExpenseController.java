@@ -35,4 +35,9 @@ public class ExpenseController {
     public void addExpense(@Valid @RequestBody ExpenseDto expenseDto) {
         expenseService.addUserExpense(expenseDto);
     }
+
+    @DeleteMapping("/{expenseId}")
+    public void deleteExpense(@PathVariable @PositiveOrZero Long expenseId) {
+        expenseService.delete(expenseId);
+    }
 }
