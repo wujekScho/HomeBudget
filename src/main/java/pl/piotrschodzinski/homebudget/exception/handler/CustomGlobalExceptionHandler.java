@@ -24,7 +24,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         CustomErrorResponse customErrorResponse = new CustomErrorResponse();
         HttpStatus httpStatus = getHttpStatus(ex);
         Map<String, String> errors = new HashMap<>();
-        errors.put("error", ex.getMessage());
+        errors.put("custom exception", ex.getMessage());
 
         customErrorResponse.setTimestamp(LocalDateTime.now());
         customErrorResponse.setHttpStatus(httpStatus.toString());
@@ -51,7 +51,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
                                                                   WebRequest request) {
         CustomErrorResponse customErrorResponse = new CustomErrorResponse();
         Map<String, String> errors = new HashMap<>();

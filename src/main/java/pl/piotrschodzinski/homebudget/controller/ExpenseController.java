@@ -25,6 +25,12 @@ public class ExpenseController {
         return expenseService.getUserExpenses(userId);
     }
 
+    @GetMapping("user/{userId}/category/{categoryId}")
+    public List<ExpenseDto> getUserExpensesByCategory(@PathVariable @PositiveOrZero Long userId,
+                                                      @PathVariable @PositiveOrZero Long categoryId) {
+        return expenseService.getUserExpensesByCategory(userId, categoryId);
+    }
+
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addExpense(@Valid @RequestBody ExpenseDto expenseDto) {
         expenseService.addUserExpense(expenseDto);

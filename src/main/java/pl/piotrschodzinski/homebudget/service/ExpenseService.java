@@ -3,6 +3,7 @@ package pl.piotrschodzinski.homebudget.service;
 import org.springframework.stereotype.Service;
 import pl.piotrschodzinski.homebudget.dto.ExpenseDto;
 import pl.piotrschodzinski.homebudget.entity.Expense;
+import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
 import pl.piotrschodzinski.homebudget.entity.User;
 import pl.piotrschodzinski.homebudget.exception.customException.EntityNotFoundException;
 import pl.piotrschodzinski.homebudget.mapper.ExpenseMapper;
@@ -34,7 +35,7 @@ public class ExpenseService {
         if (optionalUser.isPresent()) {
             List<Expense> userExpenses = expenseRepository.findAllByUserId(userId);
             return userExpenses.stream()
-                    .map(e -> expenseMapper.mapToDto(e))
+                    .map(expenseMapper::mapToDto)
                     .collect(Collectors.toList());
         } else {
             throw new EntityNotFoundException("User not found.");
@@ -44,5 +45,19 @@ public class ExpenseService {
     public void addUserExpense(ExpenseDto expenseDto) {
         Expense expenseEntity = expenseMapper.mapToEntity(expenseDto);
         expenseRepository.save(expenseEntity);
+    }
+
+    public List<ExpenseDto> getUserExpensesByCategory(Long userId, Long categoryId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findById(categoryId);
+
+        if (optionalUser.isPresent() && optionalExpenseCategory.isPresent()) {
+            List<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId);
+            return expenses.stream()
+                    .map(expenseMapper::mapToDto)
+                    .collect(Collectors.toList());
+        } else {
+            throw new EntityNotFoundException("User or category not found.");
+        }
     }
 }
