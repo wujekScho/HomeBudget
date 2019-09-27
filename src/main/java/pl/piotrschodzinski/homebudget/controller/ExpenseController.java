@@ -36,6 +36,11 @@ public class ExpenseController {
         expenseService.addUserExpense(expenseDto);
     }
 
+    @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void editExpense(@Valid @RequestBody ExpenseDto expenseDto) {
+        expenseService.editExpense(expenseDto);
+    }
+
     @DeleteMapping("/{expenseId}")
     public void deleteExpense(@PathVariable @PositiveOrZero Long expenseId) {
         expenseService.delete(expenseId);

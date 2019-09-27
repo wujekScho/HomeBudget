@@ -6,6 +6,7 @@ import pl.piotrschodzinski.homebudget.entity.Expense;
 import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
 import pl.piotrschodzinski.homebudget.entity.User;
 import pl.piotrschodzinski.homebudget.exception.customException.EntityNotFoundException;
+import pl.piotrschodzinski.homebudget.exception.customException.IncorrectIdException;
 import pl.piotrschodzinski.homebudget.mapper.ExpenseMapper;
 import pl.piotrschodzinski.homebudget.repository.ExpenseCategoryRepository;
 import pl.piotrschodzinski.homebudget.repository.ExpenseRepository;
@@ -44,6 +45,9 @@ public class ExpenseService {
 
     public void addUserExpense(ExpenseDto expenseDto) {
         Expense expenseEntity = expenseMapper.mapToEntity(expenseDto);
+        if (expenseEntity.getId() != null) {
+            throw new IncorrectIdException("Id of entity to persist should be null.");
+        }
         expenseRepository.save(expenseEntity);
     }
 
@@ -66,5 +70,13 @@ public class ExpenseService {
         optionalExpense.ifPresentOrElse(e -> expenseRepository.delete(e), () -> {
             throw new EntityNotFoundException("Expense not found.");
         });
+    }
+
+    public void editExpense(ExpenseDto expenseDto) {
+        Expense expenseEntity = expenseMapper.mapToEntity(expenseDto);
+        if (expenseEntity.getId() == null) {
+            throw new IncorrectIdException("Id of entity to update shouldn't be null.");
+        }
+        expenseRepository.save(expenseEntity);
     }
 }
