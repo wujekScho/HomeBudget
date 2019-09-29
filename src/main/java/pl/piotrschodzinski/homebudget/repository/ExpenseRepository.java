@@ -13,6 +13,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Query("SELECT e FROM Expense e WHERE e.user.id = :userId")
     List<Expense> findAllByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT e FROM Expense e WHERE e.user.id = :userId and e.category.id = :categoryId")
-    List<Expense> findAllByUserIdAndCategoryId(@Param("userId") Long userId, @Param("categoryId") Long categoryId);
+    @Query("SELECT e FROM Expense e WHERE e.category.id = :categoryId")
+    List<Expense> findAllByCategoryId(@Param("categoryId") Long categoryId);
 }

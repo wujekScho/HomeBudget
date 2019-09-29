@@ -25,10 +25,9 @@ public class ExpenseController {
         return expenseService.getUserExpenses(userId);
     }
 
-    @GetMapping("user/{userId}/category/{categoryId}")
-    public List<ExpenseDto> getUserExpensesByCategory(@PathVariable @PositiveOrZero Long userId,
-                                                      @PathVariable @PositiveOrZero Long categoryId) {
-        return expenseService.getUserExpensesByCategory(userId, categoryId);
+    @GetMapping("category/{categoryId}")
+    public List<ExpenseDto> getUserExpensesByCategory(@PathVariable @PositiveOrZero Long categoryId) {
+        return expenseService.getCategoryExpenses(categoryId);
     }
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)

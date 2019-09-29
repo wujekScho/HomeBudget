@@ -43,26 +43,25 @@ public class ExpenseService {
         }
     }
 
+    public List<ExpenseDto> getCategoryExpenses(Long categoryId) {
+        Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findById(categoryId);
+
+        if (optionalExpenseCategory.isPresent()) {
+            List<Expense> expenses = expenseRepository.findAllByCategoryId(categoryId);
+            return expenses.stream()
+                    .map(expenseMapper::mapToDto)
+                    .collect(Collectors.toList());
+        } else {
+            throw new EntityNotFoundException("Category not found.");
+        }
+    }
+
     public void addUserExpense(ExpenseDto expenseDto) {
         Expense expenseEntity = expenseMapper.mapToEntity(expenseDto);
         if (expenseEntity.getId() != null) {
             throw new IncorrectIdException("Id of entity to persist should be null.");
         }
         expenseRepository.save(expenseEntity);
-    }
-
-    public List<ExpenseDto> getUserExpensesByCategory(Long userId, Long categoryId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findById(categoryId);
-
-        if (optionalUser.isPresent() && optionalExpenseCategory.isPresent()) {
-            List<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId);
-            return expenses.stream()
-                    .map(expenseMapper::mapToDto)
-                    .collect(Collectors.toList());
-        } else {
-            throw new EntityNotFoundException("User or category not found.");
-        }
     }
 
     public void delete(Long expenseId) {
