@@ -4,21 +4,27 @@ import org.springframework.stereotype.Service;
 import pl.piotrschodzinski.homebudget.dto.ExpenseCategoryDto;
 import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
 import pl.piotrschodzinski.homebudget.entity.User;
+import pl.piotrschodzinski.homebudget.exception.customException.EntityNotFoundException;
 import pl.piotrschodzinski.homebudget.exception.customException.IncorrectIdException;
 import pl.piotrschodzinski.homebudget.exception.customException.NotUniqueEntityException;
 import pl.piotrschodzinski.homebudget.mapper.ExpenseCategoryMapper;
 import pl.piotrschodzinski.homebudget.repository.ExpenseCategoryRepository;
+import pl.piotrschodzinski.homebudget.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ExpenseCategoryService {
     private ExpenseCategoryRepository expenseCategoryRepository;
     private ExpenseCategoryMapper expenseCategoryMapper;
+    private UserRepository userRepository;
 
-    public ExpenseCategoryService(ExpenseCategoryRepository expenseCategoryRepository, ExpenseCategoryMapper expenseCategoryMapper) {
+    public ExpenseCategoryService(ExpenseCategoryRepository expenseCategoryRepository,
+                                  ExpenseCategoryMapper expenseCategoryMapper, UserRepository userRepository) {
         this.expenseCategoryRepository = expenseCategoryRepository;
         this.expenseCategoryMapper = expenseCategoryMapper;
+        this.userRepository = userRepository;
     }
 
     public void setUserDefaultCategories(User user) {
@@ -42,5 +48,14 @@ public class ExpenseCategoryService {
             throw new IncorrectIdException("Id of entity to persist should be null.");
         }
         expenseCategoryRepository.save(expenseCategory);
+    }
+
+    public List<ExpenseCategory> getUserExpenseCategories(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            return expenseCategoryRepository.findAllByUserId(userId);
+        } else {
+            throw new EntityNotFoundException("User not found.");
+        }
     }
 }
