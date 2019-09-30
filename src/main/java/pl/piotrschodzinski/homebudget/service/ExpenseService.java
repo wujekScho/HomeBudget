@@ -78,4 +78,13 @@ public class ExpenseService {
         }
         expenseRepository.save(expenseEntity);
     }
+
+    public ExpenseDto getExpenseById(Long expenseId) {
+        Optional<Expense> optionalExpense = expenseRepository.findById(expenseId);
+        if (optionalExpense.isPresent()) {
+            return expenseMapper.mapToDto(optionalExpense.get());
+        } else {
+            throw new EntityNotFoundException("Expense not found.");
+        }
+    }
 }

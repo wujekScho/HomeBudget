@@ -20,6 +20,11 @@ public class ExpenseController {
         this.expenseService = expenseService;
     }
 
+    @GetMapping("/{expenseId}")
+    public ExpenseDto getExpenseById(@PathVariable @PositiveOrZero Long expenseId) {
+        return expenseService.getExpenseById(expenseId);
+    }
+
     @GetMapping("/user/{userId}")
     public List<ExpenseDto> getUserExpenses(@PathVariable @PositiveOrZero Long userId) {
         return expenseService.getUserExpenses(userId);
