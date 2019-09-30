@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.piotrschodzinski.homebudget.dto.ExpenseCategoryDto;
 import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
 import pl.piotrschodzinski.homebudget.entity.User;
+import pl.piotrschodzinski.homebudget.exception.customException.IncorrectIdException;
 import pl.piotrschodzinski.homebudget.exception.customException.NotUniqueEntityException;
 import pl.piotrschodzinski.homebudget.mapper.ExpenseCategoryMapper;
 import pl.piotrschodzinski.homebudget.repository.ExpenseCategoryRepository;
@@ -36,6 +37,9 @@ public class ExpenseCategoryService {
         Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findByName(expenseCategory.getName());
         if (optionalExpenseCategory.isPresent()) {
             throw new NotUniqueEntityException("Category with same name already exists.");
+        }
+        if (expenseCategory.getId() != null) {
+            throw new IncorrectIdException("Id of entity to persist should be null.");
         }
         expenseCategoryRepository.save(expenseCategory);
     }

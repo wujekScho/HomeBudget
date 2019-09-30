@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.piotrschodzinski.homebudget.exception.customException.EntityNotFoundException;
 import pl.piotrschodzinski.homebudget.exception.customException.IncorrectIdException;
+import pl.piotrschodzinski.homebudget.exception.customException.NotUniqueEntityException;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ import java.util.Map;
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({EntityNotFoundException.class, IncorrectIdException.class})
+    @ExceptionHandler({EntityNotFoundException.class, IncorrectIdException.class, NotUniqueEntityException.class})
     public ResponseEntity<CustomErrorResponse> handleException(Exception ex) {
         CustomErrorResponse customErrorResponse = new CustomErrorResponse();
         HttpStatus httpStatus = getHttpStatus(ex);
@@ -77,6 +78,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             httpStatus = HttpStatus.NOT_FOUND;
         } else if (exClass.equals(IncorrectIdException.class)) {
             httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        } else if (exClass.equals(NotUniqueEntityException.class)) {
+            httpStatus = HttpStatus.CONFLICT;
         }
         return httpStatus;
     }

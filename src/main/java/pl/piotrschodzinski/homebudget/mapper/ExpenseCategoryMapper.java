@@ -25,13 +25,15 @@ public class ExpenseCategoryMapper implements DtoMapper<ExpenseCategory, Expense
         ExpenseCategory expenseCategory = new ExpenseCategory();
         expenseCategory.setId(dtoObject.getId());
         expenseCategory.setName(dtoObject.getName());
-        Optional<User> optionalUser = userRepository.findById(dtoObject.getId());
+        Optional<User> optionalUser = userRepository.findById(dtoObject.getUserId());
         optionalUser.ifPresentOrElse(expenseCategory::setUser, () -> {
             throw new EntityNotFoundException("User not found.");
         });
-        expenseCategory.setExpenses(dtoObject.getExpenses().stream()
-                .map(expenseMapper::mapToEntity)
-                .collect(Collectors.toList()));
+        if (dtoObject.getExpenses() != null) {
+            expenseCategory.setExpenses(dtoObject.getExpenses().stream()
+                    .map(expenseMapper::mapToEntity)
+                    .collect(Collectors.toList()));
+        }
         return expenseCategory;
     }
 
