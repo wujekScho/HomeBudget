@@ -26,7 +26,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         CustomErrorResponse customErrorResponse = new CustomErrorResponse();
         HttpStatus httpStatus = getHttpStatus(ex);
         Map<String, String> errors = new HashMap<>();
-        errors.put("custom exception", ex.getMessage());
+        errors.put(ex.getClass().getSimpleName(), ex.getMessage());
         customErrorResponse.setTimestamp(LocalDateTime.now());
         customErrorResponse.setHttpStatus(httpStatus.toString());
         customErrorResponse.setErrors(errors);

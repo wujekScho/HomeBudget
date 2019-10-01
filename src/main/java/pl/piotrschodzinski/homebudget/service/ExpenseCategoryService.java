@@ -13,6 +13,7 @@ import pl.piotrschodzinski.homebudget.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseCategoryService {
@@ -38,10 +39,12 @@ public class ExpenseCategoryService {
         expenseCategoryRepository.save(new ExpenseCategory("Higiena", user));
     }
 
-    public List<ExpenseCategory> getUserExpenseCategories(Long userId) {
+    public List<ExpenseCategoryDto> getUserExpenseCategories(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
-            return expenseCategoryRepository.findAllByUserId(userId);
+            return expenseCategoryRepository.findAllByUserId(userId).stream()
+                    .map(expenseCategoryMapper::mapToDto)
+                    .collect(Collectors.toList());
         } else {
             throw new EntityNotFoundException("User not found.");
         }

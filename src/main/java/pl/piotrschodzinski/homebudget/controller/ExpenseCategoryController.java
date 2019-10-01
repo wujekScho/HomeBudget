@@ -4,7 +4,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrschodzinski.homebudget.dto.ExpenseCategoryDto;
-import pl.piotrschodzinski.homebudget.entity.ExpenseCategory;
 import pl.piotrschodzinski.homebudget.service.ExpenseCategoryService;
 
 import javax.validation.Valid;
@@ -22,7 +21,7 @@ public class ExpenseCategoryController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<ExpenseCategory> getUserExpenseCategories(@PathVariable @PositiveOrZero Long userId) {
+    public List<ExpenseCategoryDto> getUserExpenseCategories(@PathVariable @PositiveOrZero Long userId) {
         return expenseCategoryService.getUserExpenseCategories(userId);
     }
 
