@@ -38,18 +38,6 @@ public class ExpenseCategoryService {
         expenseCategoryRepository.save(new ExpenseCategory("Higiena", user));
     }
 
-    public void addExpenseCategory(ExpenseCategoryDto expenseCategoryDto) {
-        ExpenseCategory expenseCategory = expenseCategoryMapper.mapToEntity(expenseCategoryDto);
-        Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findByName(expenseCategory.getName());
-        if (optionalExpenseCategory.isPresent()) {
-            throw new NotUniqueEntityException("Category with same name already exists.");
-        }
-        if (expenseCategory.getId() != null) {
-            throw new IncorrectIdException("Id of entity to persist should be null.");
-        }
-        expenseCategoryRepository.save(expenseCategory);
-    }
-
     public List<ExpenseCategory> getUserExpenseCategories(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -57,5 +45,29 @@ public class ExpenseCategoryService {
         } else {
             throw new EntityNotFoundException("User not found.");
         }
+    }
+
+    public void addExpenseCategory(ExpenseCategoryDto expenseCategoryDto) {
+        ExpenseCategory expenseCategory = expenseCategoryMapper.mapToEntity(expenseCategoryDto);
+        if (expenseCategory.getId() != null) {
+            throw new IncorrectIdException("Id of entity to persist should be null.");
+        }
+        Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findByName(expenseCategory.getName());
+        if (optionalExpenseCategory.isPresent()) {
+            throw new NotUniqueEntityException("Category with same name already exists.");
+        }
+        expenseCategoryRepository.save(expenseCategory);
+    }
+
+    public void editExpenseCategory(ExpenseCategoryDto expenseCategoryDto) {
+        ExpenseCategory expenseCategory = expenseCategoryMapper.mapToEntity(expenseCategoryDto);
+        if (expenseCategory.getId() == null) {
+            throw new IncorrectIdException("Id of entity to update shouldn't be null.");
+        }
+        Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findById(expenseCategory.getId());
+        if (!optionalExpenseCategory.isPresent()) {
+            throw new EntityNotFoundException("Expense category entity not found.");
+        }
+        expenseCategoryRepository.save(expenseCategory);
     }
 }

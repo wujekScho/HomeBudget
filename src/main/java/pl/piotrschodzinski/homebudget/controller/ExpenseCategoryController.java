@@ -26,9 +26,13 @@ public class ExpenseCategoryController {
         return expenseCategoryService.getUserExpenseCategories(userId);
     }
 
+    @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void editExpenseCategory(@Valid @RequestBody ExpenseCategoryDto expenseCategoryDto) {
+        expenseCategoryService.editExpenseCategory(expenseCategoryDto);
+    }
+
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addExpenseCategory(@Valid @RequestBody ExpenseCategoryDto expenseCategoryDto) {
         expenseCategoryService.addExpenseCategory(expenseCategoryDto);
     }
-
 }
