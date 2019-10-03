@@ -34,4 +34,9 @@ public class ExpenseCategoryController {
     public void addExpenseCategory(@Valid @RequestBody ExpenseCategoryDto expenseCategoryDto) {
         expenseCategoryService.addExpenseCategory(expenseCategoryDto);
     }
+
+    @DeleteMapping(path = "/{categoryId}")
+    public void deleteExpenseCategory(@PathVariable @PositiveOrZero Long categoryId) {
+        expenseCategoryService.deleteExpenseCategory(categoryId);
+    }
 }

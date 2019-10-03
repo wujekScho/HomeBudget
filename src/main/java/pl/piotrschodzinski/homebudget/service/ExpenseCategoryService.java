@@ -73,4 +73,8 @@ public class ExpenseCategoryService {
         }
         expenseCategoryRepository.save(expenseCategory);
     }
+
+    public void deleteExpenseCategory(Long categoryId) {
+        /// TODO: 03.10.2019 tu skończyłęm
+    }
 }
