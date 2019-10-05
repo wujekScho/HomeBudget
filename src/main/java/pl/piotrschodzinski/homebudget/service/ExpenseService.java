@@ -30,6 +30,15 @@ public class ExpenseService {
         this.expenseMapper = expenseMapper;
     }
 
+    public ExpenseDto getExpenseById(Long expenseId) {
+        Optional<Expense> optionalExpense = expenseRepository.findById(expenseId);
+        if (optionalExpense.isPresent()) {
+            return expenseMapper.mapToDto(optionalExpense.get());
+        } else {
+            throw new EntityNotFoundException("Expense not found.");
+        }
+    }
+
     public List<ExpenseDto> getUserExpenses(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
@@ -64,13 +73,6 @@ public class ExpenseService {
         expenseRepository.save(expenseEntity);
     }
 
-    public void delete(Long expenseId) {
-        Optional<Expense> optionalExpense = expenseRepository.findById(expenseId);
-        optionalExpense.ifPresentOrElse(e -> expenseRepository.delete(e), () -> {
-            throw new EntityNotFoundException("Expense not found.");
-        });
-    }
-
     public void editExpense(ExpenseDto expenseDto) {
         Expense expenseEntity = expenseMapper.mapToEntity(expenseDto);
         if (expenseEntity.getId() == null) {
@@ -79,12 +81,10 @@ public class ExpenseService {
         expenseRepository.save(expenseEntity);
     }
 
-    public ExpenseDto getExpenseById(Long expenseId) {
+    public void delete(Long expenseId) {
         Optional<Expense> optionalExpense = expenseRepository.findById(expenseId);
-        if (optionalExpense.isPresent()) {
-            return expenseMapper.mapToDto(optionalExpense.get());
-        } else {
+        optionalExpense.ifPresentOrElse(e -> expenseRepository.delete(e), () -> {
             throw new EntityNotFoundException("Expense not found.");
-        }
+        });
     }
 }
