@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,7 +18,7 @@ public class ExpenseCategoryDto {
     Long id;
     @NotBlank
     String name;
-    List<ExpenseDto> expenses;
+    List<ExpenseDto> expenses = new ArrayList<>();
     @PositiveOrZero
     Long userId;
 }

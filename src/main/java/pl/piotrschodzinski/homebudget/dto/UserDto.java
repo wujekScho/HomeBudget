@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,5 +25,5 @@ public class UserDto {
     @NotBlank //todo create custom validator for password
             String password;
     @NotBlank
-    String role;
+    List<String> roles = new ArrayList<>();
 }

@@ -76,6 +76,7 @@ public class ExpenseCategoryService {
 
     public void deleteExpenseCategory(Long categoryId) {
         Optional<ExpenseCategory> optionalExpenseCategory = expenseCategoryRepository.findById(categoryId);
+
         optionalExpenseCategory.ifPresentOrElse(e -> expenseCategoryRepository.delete(e), () -> {
             throw new EntityNotFoundException("Expense category not found.");
         });
