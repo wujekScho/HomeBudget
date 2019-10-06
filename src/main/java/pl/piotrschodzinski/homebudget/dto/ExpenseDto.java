@@ -20,7 +20,7 @@ public class ExpenseDto {
     Long id;
     @NotBlank
     String title;
-    @DecimalMin(value = "0.01", inclusive = true)
+    @DecimalMin(value = "0.01")
     BigDecimal value;
     @PastOrPresent
     LocalDateTime time;

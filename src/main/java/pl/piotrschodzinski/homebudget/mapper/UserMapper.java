@@ -1,11 +1,13 @@
 package pl.piotrschodzinski.homebudget.mapper;
 
+import org.springframework.stereotype.Component;
 import pl.piotrschodzinski.homebudget.dto.UserDto;
 import pl.piotrschodzinski.homebudget.entity.User;
 import pl.piotrschodzinski.homebudget.repository.UserRoleRepository;
 
 import java.util.stream.Collectors;
 
+@Component
 public class UserMapper implements DtoMapper<User, UserDto> {
 
     private UserRoleRepository userRoleRepository;

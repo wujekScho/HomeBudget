@@ -24,6 +24,5 @@ public class UserDto {
     String email;
     @NotBlank //todo create custom validator for password
             String password;
-    @NotBlank
     List<String> roles = new ArrayList<>();
 }

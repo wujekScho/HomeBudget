@@ -19,9 +19,4 @@ public class UserRole {
     @Column(unique = true)
     private String role;
     private String description;
-
-    public UserRole(String role, String description) {
-        this.role = role;
-        this.description = description;
-    }
 }
