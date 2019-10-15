@@ -5,6 +5,7 @@ target/
 !**/src/test/**
 .mvn
 mvnw*
+db_variables.env
 
 ### STS ###
 .apt_generated
