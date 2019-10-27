@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import pl.piotrschodzinski.homebudget.validator.PasswordConstraint;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -22,7 +23,7 @@ public class UserDto {
     @NotBlank
     @Email
     String email;
-    @NotBlank //todo create custom validator for password
-            String password;
+    @PasswordConstraint
+    String password;
     List<String> roles = new ArrayList<>();
 }
