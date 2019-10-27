@@ -5,8 +5,8 @@ services:
     container_name: database
     image: mysql:5.6
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_ADDRESS}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PW}
+      MYSQL_DATABASE: ${MYSQL_DB}
     ports:
       - "3307:3306"
     command: ['mysqld', '--character-set-server=utf8', '--collation-server=utf8_unicode_ci']

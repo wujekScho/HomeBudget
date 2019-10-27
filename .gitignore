@@ -5,7 +5,7 @@ target/
 !**/src/test/**
 .mvn
 mvnw*
-.env
+*.env
 
 ### STS ###
 .apt_generated
