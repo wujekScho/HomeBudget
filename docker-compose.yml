@@ -16,6 +16,8 @@ services:
   rest:
     container_name: homebudget
     build: .
+    environment:
+      - ACTIVE_PROFILE=prod
     env_file:
       - db_variables.env
     ports:
